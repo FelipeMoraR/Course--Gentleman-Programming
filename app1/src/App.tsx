@@ -1,12 +1,8 @@
 import './App.css'
-import {FormLayout, CardDefault, CardPurple} from './layouts/index'
+import {CardDefault, CardPurple} from './layouts/index'
 
 
 function App() {
-
-  const handleSubmit = () => {
-    
-  }
   
 
   return (
@@ -20,11 +16,6 @@ function App() {
         <h1>Card purple</h1>
         <p>Body purple</p>
       </CardPurple>
-
-      <FormLayout>
-        <FormLayout.Input label="Name" type="text" placeholder="Enter your name" required = {true} />
-        <button type = "submit" onClick={handleSubmit}>Submit</button>
-      </FormLayout>
     </>
   )
 }
