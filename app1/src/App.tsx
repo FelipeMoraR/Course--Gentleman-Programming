@@ -1,21 +1,22 @@
 import './App.css'
-import {CardDefault, CardPurple} from './layouts/index'
+import { useModalContext } from './components/Modal/context/ModalContext'
+import { Modal } from './components/Modal/Modal'
 
 
 function App() {
-  
+  const {setIsModalOpen} = useModalContext();
+
 
   return (
     <>
-      <CardDefault>
-        <h1>Card defauld</h1>
-        <p>Body default</p>
-      </CardDefault>
+      {/* <ShoppingCard/> */}
+      {/* <ContactList/> */}
+      <Modal>
+        <h1>hola</h1>
+        <p>Modal</p>
+      </Modal>
 
-      <CardPurple>
-        <h1>Card purple</h1>
-        <p>Body purple</p>
-      </CardPurple>
+      <button onClick = {() => setIsModalOpen(true)}>OPEN DOUPEN MODAL</button>
     </>
   )
 }
