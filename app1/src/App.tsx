@@ -1,22 +1,44 @@
 import './App.css'
-import { useModalContext } from './components/Modal/context/ModalContext'
-import { Modal } from './components/Modal/Modal'
+import { getCharacter } from './services/api.service';
+import { Character } from './models/character.mode';
+import { useApi } from './hooks/UseApi';
 
 
 function App() {
-  const {setIsModalOpen} = useModalContext();
+  const {data, error, fetch, loading} = useApi<Character>(getCharacter(1), { autoFetch: false }); //This is an instanse that create it own values.
+  // const {data: data2, error: error2, fetch: fetch2, loading: loading2} = useApi<Character>(getCharacter(2)); //This is other instanse and have other values, not the same as the useApi above
 
+ 
+
+  if(error) return <h1>{error.message}</h1>
 
   return (
     <>
-      {/* <ShoppingCard/> */}
-      {/* <ContactList/> */}
-      <Modal>
-        <h1>hola</h1>
-        <p>Modal</p>
-      </Modal>
+      <div style={{border: "1px solid black", padding: "10px", margin: "10px"}}>
+        {
+          loading ? (
+            <h1>Loading...</h1>
+          ) : (
+            <>
+              {JSON.stringify(data)}
+              <button onClick={fetch}>fetch</button>
+            </>
+          )
+        }
+      </div>
 
-      <button onClick = {() => setIsModalOpen(true)}>OPEN DOUPEN MODAL</button>
+      {/* <div style={{border: "1px solid black", padding: "10px", margin: "10px"}}>
+        {
+          loading2 ? (
+            <h1>Loading...</h1>
+          ) : (
+            <>
+              {JSON.stringify(data2)}
+              <button onClick={fetch2}>fetch</button>
+            </>
+          )
+        }
+      </div> */}
     </>
   )
 }

@@ -5,6 +5,7 @@
     width: 100%;
     height: 100%;
     cursor: pointer;
+    background-color: rgba(184, 57, 243, 0.192);
 }
 
 .modal{

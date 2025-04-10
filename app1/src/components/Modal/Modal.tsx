@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from "react"
+import { ReactNode, useEffect, useRef } from "react"
 import { createPortal } from "react-dom";
 import { useModalContext } from "./context/ModalContext";
 import style from './Modal.module.css';
@@ -13,9 +13,28 @@ export const Modal = ({children} : Props) => {
     const modalRef = useRef<HTMLDivElement>(null);
     const { isModalOpen, setIsModalOpen } = useModalContext();
 
+    const closeModal = () => setIsModalOpen(false);
+
     if(!isModalOpen || !modalRoot) return null;
 
-    const closeModal = () => setIsModalOpen(false);
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if(e.key === 'Escape') {
+                closeModal();
+            }
+        }
+
+        if(isModalOpen){
+            document.addEventListener('keydown', handleEsc);
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleEsc);
+        }
+
+    }, [isModalOpen, setIsModalOpen])
+
+   
 
     return createPortal(
         <>
