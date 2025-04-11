@@ -10,3 +10,7 @@ export interface UseApiCall<T> {
     call: Promise<AxiosResponse<T>>,
     controller: AbortController
 }
+
+export interface CustomParams {
+    number: number;
+}
