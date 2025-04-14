@@ -1,5 +1,5 @@
 import './App.css'
-import { useToggle, useCounter, useFetch } from './hooks'
+import { useToggle, useCounter, useFetch, useForm, useDebounce } from './hooks'
 
 function App() {
   const initialValue = false
@@ -11,10 +11,20 @@ function App() {
     name: string
   };
 
+  type DataForm = {
+    name: string;
+    email: string;
+  }
+
 
   const { value, toggle } = useToggle(initialValue);
   const { count, decrement, increment, reset } = useCounter(initalCounter);
   const { data, error, loading, fetchCall } = useFetch<DataFetch>(initialUrl);
+  const {values, handleChange, reset: resetForm} = useForm<DataForm>({
+    name: '',
+    email: ''
+  });
+
 
   return (
     <>
@@ -49,8 +59,23 @@ function App() {
 
       </div>
       
+      <form style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+        <div style={{display: 'flex', flexDirection: 'column', gap: '.5rem'}}>
+          <label htmlFor="name">Name</label>
+          <input type = "text" name = "name" id = "name" value = {values.name} onChange = {handleChange}/>
+        </div>
+        
+        <div style={{display: 'flex', flexDirection: 'column', gap: '.5rem'}}>
+          <label htmlFor="email">Email</label>
+          <input type = "text" name = "email" id = "email" value = {useDebounce<string>(values.email, 500)} onChange = {handleChange}/>
+        </div>
+        
+        <button onClick={resetForm} type='button'>Rest Values</button>
+      </form>
     </>
   )
 }
 
 export default App;
+
+
