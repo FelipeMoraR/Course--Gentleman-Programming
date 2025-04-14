@@ -3,15 +3,16 @@
 
 import { useEffect, useState } from "react";
 
-type ValueParam<T> = T; 
 
 export const useDebounce = <T>(value: T, delay: number): T => {
-    const [valueDelayed, setValueDelayed] = useState<ValueParam<T>>(value);
+    const [valueDelayed, setValueDelayed] = useState<T>(value);
     
     useEffect(() => {
-        setValueDelayed(value);
-        
-        console.log('valueDelayed => ', valueDelayed);
+        const delayTimeout = setTimeout(() => {
+            setValueDelayed(value);
+        }, delay);
+
+        return () => clearTimeout(delayTimeout);
     }, [value]);
 
 

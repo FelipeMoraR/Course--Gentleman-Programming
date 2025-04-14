@@ -16,6 +16,10 @@ function App() {
     email: string;
   }
 
+  type DataForm2 = {
+    search: string;
+  }
+
 
   const { value, toggle } = useToggle(initialValue);
   const { count, decrement, increment, reset } = useCounter(initalCounter);
@@ -25,6 +29,13 @@ function App() {
     email: ''
   });
 
+  const {values: valuesSearch, handleChange: handleChange2, reset: resetForm2} = useForm<DataForm2>({
+    search: ''
+  });
+
+  const debounce = useDebounce(valuesSearch.search, 1000);
+  
+  console.log('delay 500 =>', debounce);
 
   return (
     <>
@@ -67,11 +78,19 @@ function App() {
         
         <div style={{display: 'flex', flexDirection: 'column', gap: '.5rem'}}>
           <label htmlFor="email">Email</label>
-          <input type = "text" name = "email" id = "email" value = {useDebounce<string>(values.email, 500)} onChange = {handleChange}/>
+          <input type = "text" name = "email" id = "email" value = {values.email} onChange = {handleChange}/>
         </div>
         
         <button onClick={resetForm} type='button'>Rest Values</button>
       </form>
+
+
+      
+      <div style={{display: 'flex', flexDirection: 'column', gap: '.5rem'}}>
+          <label htmlFor="email">Search</label>
+          <input type = "text" name = "search" id = "search" value = {valuesSearch.search} onChange = {handleChange2}/>
+      </div>
+     
     </>
   )
 }
