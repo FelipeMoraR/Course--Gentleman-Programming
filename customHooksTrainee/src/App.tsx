@@ -1,5 +1,5 @@
 import './App.css'
-import { useToggle, useCounter, useFetch, useForm, useDebounce } from './hooks'
+import { useToggle, useCounter, useFetch, useForm, useDebounce, useLocalStorage } from './hooks'
 
 function App() {
   const initialValue = false
@@ -33,9 +33,11 @@ function App() {
     search: ''
   });
 
-  const debounce = useDebounce(valuesSearch.search, 1000);
+  //const debounce = useDebounce(valuesSearch.search, 1000);
+  const {value: valueLocalStorage, setValue} = useLocalStorage({key: 'theme', initialValue: 'light'}); //If key doesnt exist ligth is the new variable in the localStorage
   
-  console.log('delay 500 =>', debounce);
+
+  console.log('re-render');
 
   return (
     <>
@@ -91,6 +93,12 @@ function App() {
           <input type = "text" name = "search" id = "search" value = {valuesSearch.search} onChange = {handleChange2}/>
       </div>
      
+
+      <div>
+        <h1>{valueLocalStorage}</h1>
+        <button onClick={() => {setValue('dark')}}>Dark</button>
+        <button onClick={() => {setValue('light')}}>Light</button>
+      </div>
     </>
   )
 }
