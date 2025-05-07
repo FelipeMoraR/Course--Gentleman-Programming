@@ -1,5 +1,6 @@
+import { useRef, useState } from 'react';
 import './App.css'
-import { useToggle, useCounter, useFetch, useForm, useDebounce, useLocalStorage } from './hooks'
+import { useToggle, useCounter, useFetch, useForm, useDebounce, useLocalStorage, useOnClickOutside, usePrevious } from './hooks'
 
 function App() {
   const initialValue = false
@@ -33,12 +34,16 @@ function App() {
     search: ''
   });
 
+  const refModal = useRef<HTMLDivElement>(null);
+  useOnClickOutside(refModal, () => toggle());
+
   //const debounce = useDebounce(valuesSearch.search, 1000);
   const {value: valueLocalStorage, setValue} = useLocalStorage({key: 'theme', initialValue: 'light'}); //If key doesnt exist ligth is the new variable in the localStorage
   
-
-  console.log('re-render');
-
+  
+  const prevVal = usePrevious(valuesSearch.search);
+  console.log('Actual value => ', valuesSearch.search);
+  console.log('previous Value => ', prevVal);
   return (
     <>
       <div style={{border: '1px solid red', borderRadius: '4px', marginBottom: '1rem', padding: '1rem'}}>
@@ -99,6 +104,20 @@ function App() {
         <button onClick={() => {setValue('dark')}}>Dark</button>
         <button onClick={() => {setValue('light')}}>Light</button>
       </div>
+
+
+      {
+        value && 
+        <div ref = {refModal} style={{width: '200px', backgroundColor: 'grey', height: '200px', display:'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
+          <div style={{widows: '100px', backgroundColor: 'red', height: '100px'}}> 
+              <h1>Modal</h1>
+          </div>
+        </div>
+      }
+      
+      <button onClick = {toggle}>Show modal</button>
+
+
     </>
   )
 }
